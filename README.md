@@ -29,4 +29,4 @@ Of course not. `Snow Lang` is just toy and I learn the compilers principle throu
 
 # Reference
 
-- [<Writing An Interpreter In Go>](https://interpreterbook.com/)
+- [Writing An Interpreter In Go](https://interpreterbook.com/)
