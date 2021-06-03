@@ -1,6 +1,6 @@
 # Snow Lang
 
-`Snow Lang` is a **Toy-Level** programming language write in Go and implemented an interpreter for it.
+`Snow Lang` is a **Toy-Level** programming language writen in Go and implemented an interpreter for it.
 
 # Why named 'Snow Lang'?
 
