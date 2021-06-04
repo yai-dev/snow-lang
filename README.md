@@ -11,7 +11,7 @@
 
 `Snow Lang` is a **Toy-Level** programming language writen in Go and implemented an interpreter for it.
 
-## `Hello World` example for Snow Lange
+## Example for Snow Lang
 
 ```text
 let version = 1;
