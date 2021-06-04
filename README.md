@@ -11,6 +11,34 @@
 
 `Snow Lang` is a **Toy-Level** programming language writen in Go and implemented an interpreter for it.
 
+# `Hello World` example for Snow Lange
+
+```text
+let version = 1;
+let name = "Snow programming language";
+let arr = [1, 2, 3];
+let bool_val = true;
+
+let awesome_val = 1997 * 1110;
+let awesome_arr_val = [1 + 1, 2 + 2, 3 * 3];
+
+let fibonacci = fn(x) {
+  if (x == 0) {
+    0
+  } else {
+    if (x == 1) {
+      return 1;
+    } else {
+      fibonacci(x - 1) + fibonacci(x - 2);
+    }
+  }
+};
+
+let result = fibonacci(1);
+
+let persons = [{"name": "SuenChunYu", "age": 24}];
+```
+
 # Why named 'Snow Lang'?
 
 It' simple and crystal, `Snow` is the homonym of snowflakes in Chinese(`雪花`), and the `雪花` is homophonic for my
