@@ -11,7 +11,7 @@
 
 `Snow Lang` is a **Toy-Level** programming language writen in Go and implemented an interpreter for it.
 
-# `Hello World` example for Snow Lange
+## `Hello World` example for Snow Lange
 
 ```text
 let version = 1;
@@ -39,16 +39,16 @@ let result = fibonacci(1);
 let persons = [{"name": "SuenChunYu", "age": 24}];
 ```
 
-# Why named 'Snow Lang'?
+## Why named 'Snow Lang'?
 
 It' simple and crystal, `Snow` is the homonym of snowflakes in Chinese(`雪花`), and the `雪花` is homophonic for my
 girlfriend's name in Chinese.
 
-# Can I use `Snow Lang` for production?
+## Can I use `Snow Lang` for production?
 
 Of course not. `Snow Lang` is just toy and I learn the compilers principle through it.
 
-# Roadmap
+## Roadmap
 
 - [x] Lexing and defining tokens.
 - [x] Simple REPL.
@@ -65,6 +65,6 @@ Of course not. `Snow Lang` is just toy and I learn the compilers principle throu
 
 > Yeah, Long way to go. :)
 
-# Reference
+## Reference
 
 - [Writing An Interpreter In Go](https://interpreterbook.com/)
