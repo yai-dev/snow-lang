@@ -1,10 +1,20 @@
 # Snow Lang
 
+```text
+                                      _________                     
+                                    /   _____/ ____   ______  _  __
+                                    \_____  \ /    \ /  _ \ \/ \/ /
+                                    /        \   |  (  <_> )     /
+                                    /_______  /___|  /\____/ \/\_/  
+                                    \/     \/
+```
+
 `Snow Lang` is a **Toy-Level** programming language writen in Go and implemented an interpreter for it.
 
 # Why named 'Snow Lang'?
 
-It' simple and crystal, `Snow` is the homonym of snowflakes in Chinese(`雪花`), and the `雪花` is homophonic for my girlfriend's name in Chinese.
+It' simple and crystal, `Snow` is the homonym of snowflakes in Chinese(`雪花`), and the `雪花` is homophonic for my
+girlfriend's name in Chinese.
 
 # Can I use `Snow Lang` for production?
 
