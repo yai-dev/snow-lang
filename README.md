@@ -1,4 +1,6 @@
 # Snow Lang
+[![Go Report Card](https://goreportcard.com/badge/github.com/suenchunyu/snow-lang)](https://goreportcard.com/report/github.com/suenchunyu/snow-lang)
+
 
 ```text
                                       _________                     
