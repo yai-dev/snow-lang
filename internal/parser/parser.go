@@ -65,6 +65,10 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerPrefix(token.FlagInt, p.parseIntegerLiteral)
 	p.registerPrefix(token.FlagEM, p.parsePrefixExpression)
 	p.registerPrefix(token.FlagMinus, p.parsePrefixExpression)
+	p.registerPrefix(token.FlagTrue, p.parseBoolean)
+	p.registerPrefix(token.FlagFalse, p.parseBoolean)
+	p.registerPrefix(token.FlagLP, p.parseGroupedExpression)
+	p.registerPrefix(token.FlagIf, p.parseIfExpression)
 
 	p.infix = make(map[token.Flag]infixParserFunc)
 	p.registerInfix(token.FlagPlus, p.parseInfixExpression)
@@ -87,6 +91,73 @@ func (p *Parser) parseIdentifier() ast.Expression {
 		Token: p.cur,
 		Value: p.cur.Literal,
 	}
+}
+
+func (p *Parser) parseBoolean() ast.Expression {
+	return &ast.Boolean{
+		Token: p.cur,
+		Value: p.curTokenIs(token.FlagTrue),
+	}
+}
+
+func (p *Parser) parseIfExpression() ast.Expression {
+	expression := &ast.IfExpression{Token: p.cur}
+
+	if !p.expectedPeek(token.FlagLP) {
+		return nil
+	}
+
+	p.nextToken()
+	expression.Condition = p.parseExpression(Lowest)
+
+	if !p.expectedPeek(token.FlagRP) {
+		return nil
+	}
+
+	if !p.expectedPeek(token.FlagLB) {
+		return nil
+	}
+
+	expression.Consequence = p.parseBlockStatement()
+
+	if p.peekTokenIs(token.FlagElse) {
+		p.nextToken()
+
+		if !p.expectedPeek(token.FlagLB) {
+			return nil
+		}
+
+		expression.Alternative = p.parseBlockStatement()
+	}
+	return expression
+}
+
+func (p *Parser) parseBlockStatement() *ast.BlockStatement {
+	block := &ast.BlockStatement{Token: p.cur}
+	block.Statements = make([]ast.Statement, 0)
+
+	p.nextToken()
+
+	for !p.curTokenIs(token.FlagRB) {
+		stmt := p.parseStatement()
+		if stmt != nil {
+			block.Statements = append(block.Statements, stmt)
+		}
+		p.nextToken()
+	}
+
+	return block
+}
+
+func (p *Parser) parseGroupedExpression() ast.Expression {
+	p.nextToken()
+
+	exp := p.parseExpression(Lowest)
+
+	if !p.expectedPeek(token.FlagRP) {
+		return nil
+	}
+	return exp
 }
 
 func (p *Parser) parseIntegerLiteral() ast.Expression {

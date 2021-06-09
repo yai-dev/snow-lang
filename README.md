@@ -55,7 +55,10 @@ Of course not. `Snow Lang` is just toy and I learn the compilers principle throu
 - [x] Parsing `let` statements.
 - [x] Parsing `return` statements.
 - [x] Parsing expressions.
-- [ ] Pratt Parsing algorithm.
+- [x] Parsing grouped expressions.
+- [x] Parsing Boolean
+- [x] Parsing block statements.
+- [x] Parsing `if` / `if else` statements.
 - [ ] Read parse print loop.
 - [ ] Evaluation.
 - [ ] Interpreter Extending.
