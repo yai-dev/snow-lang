@@ -52,7 +52,7 @@ Of course not. `Snow Lang` is just toy and I learn the compilers principle throu
 
 ## Roadmap
 
-**Finished: **
+**Finished:**
 
 - [x] Lexing and defining tokens.
 - [x] Simple REPL.
@@ -67,7 +67,7 @@ Of course not. `Snow Lang` is just toy and I learn the compilers principle throu
 - [x] Parsing function calling expression.
 - [x] Read parse print loop.
 
-**WIP: **
+**WIP:**
 
 - [ ] Evaluation.
   - [x] Integer evaluation.
