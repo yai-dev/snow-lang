@@ -52,6 +52,8 @@ Of course not. `Snow Lang` is just toy and I learn the compilers principle throu
 
 ## Roadmap
 
+**Finished: **
+
 - [x] Lexing and defining tokens.
 - [x] Simple REPL.
 - [x] Parsing `let` statements.
@@ -61,7 +63,12 @@ Of course not. `Snow Lang` is just toy and I learn the compilers principle throu
 - [x] Parsing Boolean
 - [x] Parsing block statements.
 - [x] Parsing `if` / `if else` statements.
-- [ ] Read parse print loop.
+- [x] Parsing `fn` literal.
+- [x] Parsing function calling expression.
+- [x] Read parse print loop.
+
+**WIP: **
+
 - [ ] Evaluation.
 - [ ] Interpreter Extending.
 - [ ] Makefile build script.

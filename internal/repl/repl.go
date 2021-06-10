@@ -24,16 +24,25 @@ import (
 	"io"
 
 	"github.com/suenchunyu/snow-lang/internal/lexer"
-	"github.com/suenchunyu/snow-lang/internal/token"
+	"github.com/suenchunyu/snow-lang/internal/parser"
 )
 
-const PROMPT = "[Snow Lang]|> "
+const (
+	Prompt = "[Snow Lang]|> "
+	Logo   = `  _________                     
+ /   _____/ ____   ______  _  __
+ \_____  \ /    \ /  _ \ \/ \/ /
+ /        \   |  (  <_> )     / 
+/_______  /___|  /\____/ \/\_/  
+        \/     \/               
+`
+)
 
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 
 	for {
-		fmt.Printf(PROMPT)
+		fmt.Printf(Prompt)
 		scanned := scanner.Scan()
 		if !scanned {
 			return
@@ -41,9 +50,24 @@ func Start(in io.Reader, out io.Writer) {
 
 		line := scanner.Text()
 		l := lexer.New(line)
+		p := parser.New(l)
 
-		for tok := l.NextToken(); tok.Flag != token.FlagEOF; tok = l.NextToken() {
-			fmt.Printf("%+v\n", tok)
+		program := p.Parse()
+		if len(p.Errors()) != 0 {
+			printParserErrors(out, p.Errors())
+			continue
 		}
+
+		_, _ = io.WriteString(out, program.String())
+		_, _ = io.WriteString(out, "\n")
+	}
+}
+
+func printParserErrors(out io.Writer, errors []string) {
+	_, _ = io.WriteString(out, Logo)
+	_, _ = io.WriteString(out, "Oops! We ran into some awful things here!\n")
+	_, _ = io.WriteString(out, " Parser errors: \n")
+	for _, errMsg := range errors {
+		_, _ = io.WriteString(out, fmt.Sprintf("\t%s\n", errMsg))
 	}
 }
