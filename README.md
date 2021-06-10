@@ -70,6 +70,9 @@ Of course not. `Snow Lang` is just toy and I learn the compilers principle throu
 **WIP: **
 
 - [ ] Evaluation.
+  - [x] Integer evaluation.
+  - [x] Boolean evaluation.
+  - [x] Bang(`!`) operator evaluation.
 - [ ] Interpreter Extending.
 - [ ] Makefile build script.
 - [ ] Evaluation codes from `*.snow` files.

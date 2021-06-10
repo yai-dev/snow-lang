@@ -16,14 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package main
+package object
 
-import (
-	"os"
+import "fmt"
 
-	"github.com/suenchunyu/snow-lang/internal/repl"
-)
+type Integer struct {
+	Value int64
+}
 
-func main() {
-	repl.Start(os.Stdin, os.Stdout)
+func (i *Integer) Type() Type {
+	return TypeInteger
+}
+
+func (i *Integer) Inspect() string {
+	return fmt.Sprintf("%d", i.Value)
 }

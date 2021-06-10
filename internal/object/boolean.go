@@ -16,14 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package main
+package object
 
-import (
-	"os"
+import "fmt"
 
-	"github.com/suenchunyu/snow-lang/internal/repl"
-)
+type Boolean struct {
+	Value bool
+}
 
-func main() {
-	repl.Start(os.Stdin, os.Stdout)
+func (b *Boolean) Type() Type {
+	return TypeBoolean
+}
+
+func (b *Boolean) Inspect() string {
+	return fmt.Sprintf("%t", b.Value)
 }

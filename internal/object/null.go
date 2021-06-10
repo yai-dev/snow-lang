@@ -16,14 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package main
+package object
 
-import (
-	"os"
+type Null struct{}
 
-	"github.com/suenchunyu/snow-lang/internal/repl"
-)
+func (n *Null) Type() Type {
+	return TypeNull
+}
 
-func main() {
-	repl.Start(os.Stdin, os.Stdout)
+func (n *Null) Inspect() string {
+	return "null"
 }

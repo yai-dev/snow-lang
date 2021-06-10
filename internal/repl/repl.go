@@ -22,7 +22,9 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"os/user"
 
+	"github.com/suenchunyu/snow-lang/internal/eval"
 	"github.com/suenchunyu/snow-lang/internal/lexer"
 	"github.com/suenchunyu/snow-lang/internal/parser"
 )
@@ -41,6 +43,14 @@ const (
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
 
+	_, _ = io.WriteString(out, Logo)
+	u, err := user.Current()
+	if err != nil {
+		panic(err)
+	}
+	_, _ = io.WriteString(out, fmt.Sprintf("Hello %s! This is the Snow programming language!\n", u.Name))
+	_, _ = io.WriteString(out, fmt.Sprintf("Fell free to type in commands!\n"))
+
 	for {
 		fmt.Printf(Prompt)
 		scanned := scanner.Scan()
@@ -58,8 +68,11 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		_, _ = io.WriteString(out, program.String())
-		_, _ = io.WriteString(out, "\n")
+		evaluated := eval.Eval(program)
+		if evaluated != nil {
+			_, _ = io.WriteString(out, evaluated.Inspect())
+			_, _ = io.WriteString(out, "\n")
+		}
 	}
 }
 

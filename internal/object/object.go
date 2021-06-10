@@ -16,14 +16,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package main
+package object
 
-import (
-	"os"
+type Type uint8
 
-	"github.com/suenchunyu/snow-lang/internal/repl"
+const (
+	TypeNull Type = iota
+	TypeInteger
+	TypeBoolean
 )
 
-func main() {
-	repl.Start(os.Stdin, os.Stdout)
+func (t Type) String() string {
+	switch t {
+	case TypeInteger:
+		return "Integer"
+	case TypeBoolean:
+		return "Boolean"
+	case TypeNull:
+		return "Null"
+	default:
+		return "Null"
+	}
+}
+
+type Object interface {
+	Type() Type
+	Inspect() string
 }
