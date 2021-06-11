@@ -18,34 +18,14 @@
 
 package object
 
-type Type uint8
-
-const (
-	TypeNull Type = iota
-	TypeInteger
-	TypeBoolean
-	TypeReturnValue
-	TypeError
-)
-
-func (t Type) String() string {
-	switch t {
-	case TypeInteger:
-		return "Integer"
-	case TypeBoolean:
-		return "Boolean"
-	case TypeNull:
-		return "Null"
-	case TypeReturnValue:
-		return "Return Value"
-	case TypeError:
-		return "Error"
-	default:
-		return "Null"
-	}
+type ReturnValue struct {
+	Value Object
 }
 
-type Object interface {
-	Type() Type
-	Inspect() string
+func (rv *ReturnValue) Type() Type {
+	return TypeReturnValue
+}
+
+func (rv *ReturnValue) Inspect() string {
+	return rv.Value.Inspect()
 }

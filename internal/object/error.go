@@ -18,34 +18,16 @@
 
 package object
 
-type Type uint8
+import "fmt"
 
-const (
-	TypeNull Type = iota
-	TypeInteger
-	TypeBoolean
-	TypeReturnValue
-	TypeError
-)
-
-func (t Type) String() string {
-	switch t {
-	case TypeInteger:
-		return "Integer"
-	case TypeBoolean:
-		return "Boolean"
-	case TypeNull:
-		return "Null"
-	case TypeReturnValue:
-		return "Return Value"
-	case TypeError:
-		return "Error"
-	default:
-		return "Null"
-	}
+type Error struct {
+	Message string
 }
 
-type Object interface {
-	Type() Type
-	Inspect() string
+func (e *Error) Type() Type {
+	return TypeError
+}
+
+func (e *Error) Inspect() string {
+	return fmt.Sprintf("ERROR: %s", e.Message)
 }
