@@ -70,6 +70,7 @@ func init() {
 
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
+	env := object.NewEnv()
 
 	_, _ = io.WriteString(out, green+Logo+reset)
 	u, err := user.Current()
@@ -96,7 +97,7 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		evaluated := eval.Eval(program)
+		evaluated := eval.Eval(program, env)
 		if evaluated != nil {
 			if evaluated.Type() == object.TypeError {
 				printErrors(out, []string{evaluated.Inspect()})

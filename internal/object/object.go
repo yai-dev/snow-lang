@@ -25,6 +25,7 @@ const (
 	TypeInteger
 	TypeBoolean
 	TypeReturnValue
+	TypeFunction
 	TypeError
 )
 
@@ -38,6 +39,8 @@ func (t Type) String() string {
 		return "Null"
 	case TypeReturnValue:
 		return "Return Value"
+	case TypeFunction:
+		return "Function"
 	case TypeError:
 		return "Error"
 	default:

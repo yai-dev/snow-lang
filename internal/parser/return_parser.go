@@ -30,7 +30,7 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 
 	stmt.ReturnValue = p.parseExpression(Lowest)
 
-	for p.peekTokenIs(token.FlagSemicolon) {
+	if p.peekTokenIs(token.FlagSemicolon) {
 		p.nextToken()
 	}
 	return stmt

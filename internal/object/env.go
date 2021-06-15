@@ -16,36 +16,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package parser
+package object
 
-import (
-	"github.com/suenchunyu/snow-lang/internal/ast"
-	"github.com/suenchunyu/snow-lang/internal/token"
-)
+type Environment struct {
+	store map[string]Object
+	outer *Environment
+}
 
-func (p *Parser) parseLetStatement() *ast.LetStatement {
-	stmt := &ast.LetStatement{Token: p.cur}
+func NewEnv() *Environment {
+	s := make(map[string]Object)
+	return &Environment{store: s}
+}
 
-	if !p.expectedPeek(token.FlagIdent) {
-		return nil
+func NewEnclosedEnv(outer *Environment) *Environment {
+	env := NewEnv()
+	env.outer = outer
+	return env
+}
+
+func (e *Environment) Get(name string) (Object, bool) {
+	obj, ok := e.store[name]
+	if !ok && e.outer != nil {
+		obj, ok = e.outer.Get(name)
 	}
+	return obj, ok
+}
 
-	stmt.Name = &ast.Identifier{
-		Token: p.cur,
-		Value: p.cur.Literal,
-	}
-
-	if !p.expectedPeek(token.FlagAssign) {
-		return nil
-	}
-
-	p.nextToken()
-
-	stmt.Value = p.parseExpression(Lowest)
-
-	if p.peekTokenIs(token.FlagSemicolon) {
-		p.nextToken()
-	}
-
-	return stmt
+func (e *Environment) Set(name string, val Object) Object {
+	e.store[name] = val
+	return val
 }
