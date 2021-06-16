@@ -54,6 +54,7 @@ const (
 	FlagIf
 	FlagElse
 	FlagReturn
+	FlagString
 )
 
 func (f Flag) String() string {
@@ -112,6 +113,8 @@ func (f Flag) String() string {
 		return "ELSE"
 	case FlagReturn:
 		return "RETURN"
+	case FlagString:
+		return "STRING"
 	default:
 		return "ILLEGAL"
 	}

@@ -27,6 +27,34 @@ import (
 	"github.com/suenchunyu/snow-lang/internal/parser"
 )
 
+func TestStringConcatenation(t *testing.T) {
+	input := `"Hello" + " " + "World!"`
+
+	evaluated := testEval(input)
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not *object.String. got = %T (%+v)", evaluated, evaluated)
+	}
+
+	if str.Value != "Hello World!" {
+		t.Errorf("String has wrong value. got = %q", str.Value)
+	}
+}
+
+func TestStringLiteral(t *testing.T) {
+	input := `"Hello World!"`
+
+	evaluated := testEval(input)
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not *object.String. got = %T (%+v)", evaluated, evaluated)
+	}
+
+	if str.Value != "Hello World!" {
+		t.Errorf("String has wrong value. got = %q", str.Value)
+	}
+}
+
 func TestFunctionObject(t *testing.T) {
 	input := "fn(x) { x + 2; };"
 
@@ -239,6 +267,10 @@ if (10 > 1) {
     return 1;
 }`,
 			"unknown operation: Boolean + Boolean",
+		},
+		{
+			`"Hello" - "World"`,
+			"unknown operation: String - String",
 		},
 	}
 

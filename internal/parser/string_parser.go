@@ -16,42 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package object
+package parser
 
-type Type uint8
+import "github.com/suenchunyu/snow-lang/internal/ast"
 
-const (
-	TypeNull Type = iota
-	TypeInteger
-	TypeBoolean
-	TypeReturnValue
-	TypeFunction
-	TypeString
-	TypeError
-)
-
-func (t Type) String() string {
-	switch t {
-	case TypeInteger:
-		return "Integer"
-	case TypeBoolean:
-		return "Boolean"
-	case TypeNull:
-		return "Null"
-	case TypeReturnValue:
-		return "Return Value"
-	case TypeFunction:
-		return "Function"
-	case TypeError:
-		return "Error"
-	case TypeString:
-		return "String"
-	default:
-		return "Null"
+func (p *Parser) parseStringLiteral() ast.Expression {
+	return &ast.StringLiteral{
+		Token: p.cur,
+		Value: p.cur.Literal,
 	}
-}
-
-type Object interface {
-	Type() Type
-	Inspect() string
 }

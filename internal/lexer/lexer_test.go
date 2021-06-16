@@ -44,6 +44,8 @@ if (5 < 10) {
 }
 5 != 10;
 5 == 10;
+"foobar"
+"foo bar"
 `
 
 	tests := []struct {
@@ -123,6 +125,8 @@ if (5 < 10) {
 		{token.FlagEqual, "=="},
 		{token.FlagInt, "10"},
 		{token.FlagSemicolon, ";"},
+		{token.FlagString, "foobar"},
+		{token.FlagString, "foo bar"},
 		{token.FlagEOF, ""},
 	}
 

@@ -16,42 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package object
+package ast
 
-type Type uint8
+import "github.com/suenchunyu/snow-lang/internal/token"
 
-const (
-	TypeNull Type = iota
-	TypeInteger
-	TypeBoolean
-	TypeReturnValue
-	TypeFunction
-	TypeString
-	TypeError
-)
-
-func (t Type) String() string {
-	switch t {
-	case TypeInteger:
-		return "Integer"
-	case TypeBoolean:
-		return "Boolean"
-	case TypeNull:
-		return "Null"
-	case TypeReturnValue:
-		return "Return Value"
-	case TypeFunction:
-		return "Function"
-	case TypeError:
-		return "Error"
-	case TypeString:
-		return "String"
-	default:
-		return "Null"
-	}
+type StringLiteral struct {
+	Token *token.Token
+	Value string
 }
 
-type Object interface {
-	Type() Type
-	Inspect() string
+func (sl *StringLiteral) TokenLiteral() string {
+	return sl.Token.Literal
+}
+
+func (sl *StringLiteral) String() string {
+	return sl.Token.Literal
+}
+
+func (sl *StringLiteral) expressionNode() {
+	panic("implement me")
 }

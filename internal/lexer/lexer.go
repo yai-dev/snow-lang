@@ -106,6 +106,9 @@ func (l *Lexer) NextToken() *token.Token {
 		tok = token.New(token.FlagLT, l.ch)
 	case '>':
 		tok = token.New(token.FlagGT, l.ch)
+	case '"':
+		tok.Flag = token.FlagString
+		tok.Literal = l.readString()
 	case 0:
 		tok.Literal = ""
 		tok.Flag = token.FlagEOF
@@ -133,6 +136,17 @@ func (l *Lexer) readIdentifier() string {
 		l.readChar()
 	}
 	return l.input[pos:l.pos]
+}
+
+func (l *Lexer) readString() string {
+	position := l.pos + 1
+	for {
+		l.readChar()
+		if l.ch == '"' {
+			break
+		}
+	}
+	return l.input[position:l.pos]
 }
 
 func (l *Lexer) readNumber() string {

@@ -16,42 +16,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package object
+package parser_test
 
-type Type uint8
+import (
+	"testing"
 
-const (
-	TypeNull Type = iota
-	TypeInteger
-	TypeBoolean
-	TypeReturnValue
-	TypeFunction
-	TypeString
-	TypeError
+	"github.com/suenchunyu/snow-lang/internal/ast"
+	"github.com/suenchunyu/snow-lang/internal/lexer"
+	"github.com/suenchunyu/snow-lang/internal/parser"
 )
 
-func (t Type) String() string {
-	switch t {
-	case TypeInteger:
-		return "Integer"
-	case TypeBoolean:
-		return "Boolean"
-	case TypeNull:
-		return "Null"
-	case TypeReturnValue:
-		return "Return Value"
-	case TypeFunction:
-		return "Function"
-	case TypeError:
-		return "Error"
-	case TypeString:
-		return "String"
-	default:
-		return "Null"
-	}
-}
+func TestStringLiteralExpression(t *testing.T) {
+	input := `"hello world";`
 
-type Object interface {
-	Type() Type
-	Inspect() string
+	l := lexer.New(input)
+	p := parser.New(l)
+	program := p.Parse()
+	checkParserErrors(t, p)
+
+	stmt := program.Statements[0].(*ast.ExpressionStatement)
+	literal, ok := stmt.Expression.(*ast.StringLiteral)
+	if !ok {
+		t.Fatalf("exp not *ast.StringLiteral. got = %T", stmt.Expression)
+	}
+
+	if literal.Value != "hello world" {
+		t.Errorf("literal.Value not %q. got = %q", "hello world", literal.Value)
+	}
 }
