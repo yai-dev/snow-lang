@@ -23,30 +23,14 @@ import (
 	"github.com/suenchunyu/snow-lang/internal/token"
 )
 
-func (p *Parser) parseStatement() ast.Statement {
-	switch p.cur.Flag {
-	case token.FlagLet:
-		return p.parseLetStatement()
-	case token.FlagReturn:
-		return p.parseReturnStatement()
-	default:
-		return p.parseExpressionStatement()
-	}
-}
-
-func (p *Parser) parseBlockStatement() *ast.BlockStatement {
-	block := &ast.BlockStatement{Token: p.cur}
-	block.Statements = make([]ast.Statement, 0)
+func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
+	exp := &ast.IndexExpression{Token: p.cur, Left: left}
 
 	p.nextToken()
+	exp.Index = p.parseExpression(Lowest)
 
-	for !p.curTokenIs(token.FlagRBrace) {
-		stmt := p.parseStatement()
-		if stmt != nil {
-			block.Statements = append(block.Statements, stmt)
-		}
-		p.nextToken()
+	if !p.expectedPeek(token.FlagRBracket) {
+		return nil
 	}
-
-	return block
+	return exp
 }

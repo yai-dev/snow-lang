@@ -28,14 +28,14 @@ func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
 		Token:    p.cur,
 		Function: function,
 	}
-	exp.Arguments = p.parseCallArguments()
+	exp.Arguments = p.parseExpressionList(token.FlagRParen)
 	return exp
 }
 
 func (p *Parser) parseCallArguments() []ast.Expression {
 	args := make([]ast.Expression, 0)
 
-	if p.peekTokenIs(token.FlagRP) {
+	if p.peekTokenIs(token.FlagRParen) {
 		p.nextToken()
 		return args
 	}
@@ -49,7 +49,7 @@ func (p *Parser) parseCallArguments() []ast.Expression {
 		args = append(args, p.parseExpression(Lowest))
 	}
 
-	if !p.expectedPeek(token.FlagRP) {
+	if !p.expectedPeek(token.FlagRParen) {
 		return nil
 	}
 

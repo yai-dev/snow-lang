@@ -35,6 +35,7 @@ const (
 	Product     // *
 	Prefix      // -x or !x
 	Call        // customFun(x)
+	Index       // array[index]
 )
 
 type (
@@ -66,10 +67,11 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerPrefix(token.FlagMinus, p.parsePrefixExpression)
 	p.registerPrefix(token.FlagTrue, p.parseBoolean)
 	p.registerPrefix(token.FlagFalse, p.parseBoolean)
-	p.registerPrefix(token.FlagLP, p.parseGroupedExpression)
+	p.registerPrefix(token.FlagLParen, p.parseGroupedExpression)
 	p.registerPrefix(token.FlagIf, p.parseIfExpression)
 	p.registerPrefix(token.FlagFunction, p.parseFunctionLiteral)
 	p.registerPrefix(token.FlagString, p.parseStringLiteral)
+	p.registerPrefix(token.FlagLBracket, p.parseArrayLiteral)
 
 	p.infix = make(map[token.Flag]infixParserFunc)
 	p.registerInfix(token.FlagPlus, p.parseInfixExpression)
@@ -78,9 +80,10 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.FlagAsterisk, p.parseInfixExpression)
 	p.registerInfix(token.FlagEqual, p.parseInfixExpression)
 	p.registerInfix(token.FlagNotEqual, p.parseInfixExpression)
-	p.registerInfix(token.FlagLT, p.parseInfixExpression)
-	p.registerInfix(token.FlagGT, p.parseInfixExpression)
-	p.registerInfix(token.FlagLP, p.parseCallExpression)
+	p.registerInfix(token.FlagLessThan, p.parseInfixExpression)
+	p.registerInfix(token.FlagGreaterThan, p.parseInfixExpression)
+	p.registerInfix(token.FlagLParen, p.parseCallExpression)
+	p.registerInfix(token.FlagLBracket, p.parseIndexExpression)
 
 	p.nextToken()
 	p.nextToken()
@@ -97,15 +100,16 @@ func (p *Parser) registerInfix(flag token.Flag, fn infixParserFunc) {
 }
 
 var precedences = map[token.Flag]uint8{
-	token.FlagEqual:    Equals,
-	token.FlagNotEqual: Equals,
-	token.FlagLT:       LessGreater,
-	token.FlagGT:       LessGreater,
-	token.FlagPlus:     Sum,
-	token.FlagMinus:    Sum,
-	token.FlagSlash:    Product,
-	token.FlagAsterisk: Product,
-	token.FlagLP:       Call,
+	token.FlagEqual:       Equals,
+	token.FlagNotEqual:    Equals,
+	token.FlagLessThan:    LessGreater,
+	token.FlagGreaterThan: LessGreater,
+	token.FlagPlus:        Sum,
+	token.FlagMinus:       Sum,
+	token.FlagSlash:       Product,
+	token.FlagAsterisk:    Product,
+	token.FlagLParen:      Call,
+	token.FlagLBracket:    Index,
 }
 
 func (p *Parser) peekPrecedence() uint8 {

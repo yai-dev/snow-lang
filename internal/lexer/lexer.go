@@ -93,19 +93,23 @@ func (l *Lexer) NextToken() *token.Token {
 	case ';':
 		tok = token.New(token.FlagSemicolon, l.ch)
 	case '(':
-		tok = token.New(token.FlagLP, l.ch)
+		tok = token.New(token.FlagLParen, l.ch)
 	case ')':
-		tok = token.New(token.FlagRP, l.ch)
+		tok = token.New(token.FlagRParen, l.ch)
 	case ',':
 		tok = token.New(token.FlagComma, l.ch)
 	case '{':
-		tok = token.New(token.FlagLB, l.ch)
+		tok = token.New(token.FlagLBrace, l.ch)
 	case '}':
-		tok = token.New(token.FlagRB, l.ch)
+		tok = token.New(token.FlagRBrace, l.ch)
 	case '<':
-		tok = token.New(token.FlagLT, l.ch)
+		tok = token.New(token.FlagLessThan, l.ch)
 	case '>':
-		tok = token.New(token.FlagGT, l.ch)
+		tok = token.New(token.FlagGreaterThan, l.ch)
+	case '[':
+		tok = token.New(token.FlagLBracket, l.ch)
+	case ']':
+		tok = token.New(token.FlagRBracket, l.ch)
 	case '"':
 		tok.Flag = token.FlagString
 		tok.Literal = l.readString()

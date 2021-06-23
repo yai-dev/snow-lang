@@ -69,7 +69,7 @@ func (p *Parser) parseGroupedExpression() ast.Expression {
 
 	exp := p.parseExpression(Lowest)
 
-	if !p.expectedPeek(token.FlagRP) {
+	if !p.expectedPeek(token.FlagRParen) {
 		return nil
 	}
 	return exp
@@ -78,18 +78,18 @@ func (p *Parser) parseGroupedExpression() ast.Expression {
 func (p *Parser) parseIfExpression() ast.Expression {
 	expression := &ast.IfExpression{Token: p.cur}
 
-	if !p.expectedPeek(token.FlagLP) {
+	if !p.expectedPeek(token.FlagLParen) {
 		return nil
 	}
 
 	p.nextToken()
 	expression.Condition = p.parseExpression(Lowest)
 
-	if !p.expectedPeek(token.FlagRP) {
+	if !p.expectedPeek(token.FlagRParen) {
 		return nil
 	}
 
-	if !p.expectedPeek(token.FlagLB) {
+	if !p.expectedPeek(token.FlagLBrace) {
 		return nil
 	}
 
@@ -98,7 +98,7 @@ func (p *Parser) parseIfExpression() ast.Expression {
 	if p.peekTokenIs(token.FlagElse) {
 		p.nextToken()
 
-		if !p.expectedPeek(token.FlagLB) {
+		if !p.expectedPeek(token.FlagLBrace) {
 			return nil
 		}
 
@@ -129,4 +129,27 @@ func (p *Parser) parseExpression(precedence uint8) ast.Expression {
 	}
 
 	return left
+}
+
+func (p *Parser) parseExpressionList(end token.Flag) []ast.Expression {
+	list := make([]ast.Expression, 0)
+
+	if p.peekTokenIs(end) {
+		p.nextToken()
+		return list
+	}
+
+	p.nextToken()
+	list = append(list, p.parseExpression(Lowest))
+
+	for p.peekTokenIs(token.FlagComma) {
+		p.nextToken()
+		p.nextToken()
+		list = append(list, p.parseExpression(Lowest))
+	}
+
+	if !p.expectedPeek(end) {
+		return nil
+	}
+	return list
 }

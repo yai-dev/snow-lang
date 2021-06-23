@@ -26,13 +26,13 @@ import (
 func (p *Parser) parseFunctionLiteral() ast.Expression {
 	lit := &ast.FunctionLiteral{Token: p.cur}
 
-	if !p.expectedPeek(token.FlagLP) {
+	if !p.expectedPeek(token.FlagLParen) {
 		return nil
 	}
 
 	lit.Parameters = p.parseFunctionParameters()
 
-	if !p.expectedPeek(token.FlagLB) {
+	if !p.expectedPeek(token.FlagLBrace) {
 		return nil
 	}
 
@@ -44,7 +44,7 @@ func (p *Parser) parseFunctionLiteral() ast.Expression {
 func (p *Parser) parseFunctionParameters() []*ast.Identifier {
 	identifiers := make([]*ast.Identifier, 0)
 
-	if p.peekTokenIs(token.FlagRP) {
+	if p.peekTokenIs(token.FlagRParen) {
 		p.nextToken()
 		return identifiers
 	}
@@ -67,7 +67,7 @@ func (p *Parser) parseFunctionParameters() []*ast.Identifier {
 		identifiers = append(identifiers, ident)
 	}
 
-	if !p.expectedPeek(token.FlagRP) {
+	if !p.expectedPeek(token.FlagRParen) {
 		return nil
 	}
 

@@ -16,37 +16,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package parser
+package ast
 
 import (
-	"github.com/suenchunyu/snow-lang/internal/ast"
+	"bytes"
+
 	"github.com/suenchunyu/snow-lang/internal/token"
 )
 
-func (p *Parser) parseStatement() ast.Statement {
-	switch p.cur.Flag {
-	case token.FlagLet:
-		return p.parseLetStatement()
-	case token.FlagReturn:
-		return p.parseReturnStatement()
-	default:
-		return p.parseExpressionStatement()
-	}
+type IndexExpression struct {
+	Token *token.Token
+	Left  Expression
+	Index Expression
 }
 
-func (p *Parser) parseBlockStatement() *ast.BlockStatement {
-	block := &ast.BlockStatement{Token: p.cur}
-	block.Statements = make([]ast.Statement, 0)
+func (ie *IndexExpression) TokenLiteral() string {
+	return ie.Token.Literal
+}
 
-	p.nextToken()
+func (ie *IndexExpression) String() string {
+	var out bytes.Buffer
 
-	for !p.curTokenIs(token.FlagRBrace) {
-		stmt := p.parseStatement()
-		if stmt != nil {
-			block.Statements = append(block.Statements, stmt)
-		}
-		p.nextToken()
-	}
+	out.WriteString("(")
+	out.WriteString(ie.Left.String())
+	out.WriteString("[")
+	out.WriteString(ie.Index.String())
+	out.WriteString("])")
 
-	return block
+	return out.String()
+}
+
+func (ie *IndexExpression) expressionNode() {
+	panic("implement me")
 }

@@ -16,37 +16,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package parser
+package parser_test
 
 import (
+	"testing"
+
 	"github.com/suenchunyu/snow-lang/internal/ast"
-	"github.com/suenchunyu/snow-lang/internal/token"
+	"github.com/suenchunyu/snow-lang/internal/lexer"
+	"github.com/suenchunyu/snow-lang/internal/parser"
 )
 
-func (p *Parser) parseStatement() ast.Statement {
-	switch p.cur.Flag {
-	case token.FlagLet:
-		return p.parseLetStatement()
-	case token.FlagReturn:
-		return p.parseReturnStatement()
-	default:
-		return p.parseExpressionStatement()
-	}
-}
+func TestParsingIndexExpression(t *testing.T) {
+	input := "arr[1 + 1]"
 
-func (p *Parser) parseBlockStatement() *ast.BlockStatement {
-	block := &ast.BlockStatement{Token: p.cur}
-	block.Statements = make([]ast.Statement, 0)
+	l := lexer.New(input)
+	p := parser.New(l)
+	program := p.Parse()
+	checkParserErrors(t, p)
 
-	p.nextToken()
-
-	for !p.curTokenIs(token.FlagRBrace) {
-		stmt := p.parseStatement()
-		if stmt != nil {
-			block.Statements = append(block.Statements, stmt)
-		}
-		p.nextToken()
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	indexExp, ok := stmt.Expression.(*ast.IndexExpression)
+	if !ok {
+		t.Fatalf("exp not *ast.IndexExpression. got = %T", stmt.Expression)
 	}
 
-	return block
+	if !testIdentifier(t, indexExp.Left, "arr") {
+		return
+	}
+
+	if !testInfixExpression(t, indexExp.Index, 1, "+", 1) {
+		return
+	}
 }

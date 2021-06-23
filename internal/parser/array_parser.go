@@ -23,30 +23,10 @@ import (
 	"github.com/suenchunyu/snow-lang/internal/token"
 )
 
-func (p *Parser) parseStatement() ast.Statement {
-	switch p.cur.Flag {
-	case token.FlagLet:
-		return p.parseLetStatement()
-	case token.FlagReturn:
-		return p.parseReturnStatement()
-	default:
-		return p.parseExpressionStatement()
-	}
-}
+func (p *Parser) parseArrayLiteral() ast.Expression {
+	array := &ast.ArrayLiteral{Token: p.cur}
 
-func (p *Parser) parseBlockStatement() *ast.BlockStatement {
-	block := &ast.BlockStatement{Token: p.cur}
-	block.Statements = make([]ast.Statement, 0)
+	array.Elements = p.parseExpressionList(token.FlagRBracket)
 
-	p.nextToken()
-
-	for !p.curTokenIs(token.FlagRBrace) {
-		stmt := p.parseStatement()
-		if stmt != nil {
-			block.Statements = append(block.Statements, stmt)
-		}
-		p.nextToken()
-	}
-
-	return block
+	return array
 }

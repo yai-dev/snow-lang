@@ -165,7 +165,10 @@ Of course not. `Snow Lang` is just toy and I learn the compilers principle throu
 - [ ] Interpreter Extending.
   - [x] Strings
   - [x] Built-in Function: `len()`
-  - [ ] Array
+  - [x] Array
+    - [x] Parsing array literal
+    - [x] Support index operation
+    - [ ] Evaluating array literals
   - [ ] Maps
   - [ ] Built-in Function: `head()`
   - [ ] Built-in Function: `tail()`

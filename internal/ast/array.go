@@ -16,37 +16,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package parser
+package ast
 
 import (
-	"github.com/suenchunyu/snow-lang/internal/ast"
+	"bytes"
+	"strings"
+
 	"github.com/suenchunyu/snow-lang/internal/token"
 )
 
-func (p *Parser) parseStatement() ast.Statement {
-	switch p.cur.Flag {
-	case token.FlagLet:
-		return p.parseLetStatement()
-	case token.FlagReturn:
-		return p.parseReturnStatement()
-	default:
-		return p.parseExpressionStatement()
-	}
+type ArrayLiteral struct {
+	Token    *token.Token
+	Elements []Expression
 }
 
-func (p *Parser) parseBlockStatement() *ast.BlockStatement {
-	block := &ast.BlockStatement{Token: p.cur}
-	block.Statements = make([]ast.Statement, 0)
+func (al *ArrayLiteral) TokenLiteral() string {
+	return al.Token.Literal
+}
 
-	p.nextToken()
-
-	for !p.curTokenIs(token.FlagRBrace) {
-		stmt := p.parseStatement()
-		if stmt != nil {
-			block.Statements = append(block.Statements, stmt)
-		}
-		p.nextToken()
+func (al *ArrayLiteral) String() string {
+	var out bytes.Buffer
+	elements := make([]string, 0)
+	for _, ele := range al.Elements {
+		elements = append(elements, ele.String())
 	}
 
-	return block
+	out.WriteString("[")
+	out.WriteString(strings.Join(elements, ", "))
+	out.WriteString("]")
+
+	return out.String()
+}
+
+func (al *ArrayLiteral) expressionNode() {
+	panic("implement me")
 }

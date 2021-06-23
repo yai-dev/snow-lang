@@ -37,12 +37,14 @@ const (
 	FlagComma
 	FlagSemicolon
 
-	FlagLP
-	FlagRP
-	FlagLB
-	FlagRB
-	FlagLT
-	FlagGT
+	FlagLParen
+	FlagRParen
+	FlagLBrace
+	FlagRBrace
+	FlagLBracket
+	FlagRBracket
+	FlagLessThan
+	FlagGreaterThan
 
 	FlagEqual
 	FlagNotEqual
@@ -83,17 +85,21 @@ func (f Flag) String() string {
 		return ","
 	case FlagSemicolon:
 		return ";"
-	case FlagLP:
+	case FlagLParen:
 		return "("
-	case FlagRP:
+	case FlagRParen:
 		return ")"
-	case FlagLB:
+	case FlagLBrace:
 		return "{"
-	case FlagRB:
+	case FlagRBrace:
 		return "}"
-	case FlagLT:
+	case FlagLBracket:
+		return "["
+	case FlagRBracket:
+		return "]"
+	case FlagLessThan:
 		return "<"
-	case FlagGT:
+	case FlagGreaterThan:
 		return ">"
 	case FlagEqual:
 		return "=="
