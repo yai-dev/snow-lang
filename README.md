@@ -1,17 +1,11 @@
-# Snow Lang
-[![Go Report Card](https://goreportcard.com/badge/github.com/suenchunyu/snow-lang)](https://goreportcard.com/report/github.com/suenchunyu/snow-lang)
+<div align="center">
+  <img src="https://github.com/suenchunyu/snow-lang/blob/master/assets/snow.png?raw=true" />
+  <br/>
+    <a href="https://goreportcard.com/report/github.com/suenchunyu/snow-lang">
+      <img src="https://goreportcard.com/badge/github.com/suenchunyu/snow-lang" />
+    </a>
+</div>
 
-
-```text
-                                      _________                     
-                                    /   _____/ ____   ______  _  __
-                                    \_____  \ /    \ /  _ \ \/ \/ /
-                                    /        \   |  (  <_> )     /
-                                    /_______  /___|  /\____/ \/\_/  
-                                    \/     \/
-```
-
-`Snow Lang` is a **Toy-Level** programming language writen in Go and implemented an interpreter for it.
 
 ## Syntax Examples
 
