@@ -1,4 +1,6 @@
-# Snow Lang
+<div align="center">
+  <small><code>Snow Lang</code> is a <strong>Toy-Level</strong> programming language writen in Go and implemented an interpreter for it.</small>
+</div>
 [![Go Report Card](https://goreportcard.com/badge/github.com/suenchunyu/snow-lang)](https://goreportcard.com/report/github.com/suenchunyu/snow-lang)
 
 
@@ -11,7 +13,7 @@
                                     \/     \/
 ```
 
-`Snow Lang` is a **Toy-Level** programming language writen in Go and implemented an interpreter for it.
+
 
 ## Syntax Examples
 
