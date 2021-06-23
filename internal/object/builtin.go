@@ -18,43 +18,18 @@
 
 package object
 
-type Type uint8
+type (
+	BuiltinFunction func(args ...Object) Object
 
-const (
-	TypeNull Type = iota
-	TypeInteger
-	TypeBoolean
-	TypeReturnValue
-	TypeFunction
-	TypeString
-	TypeBuiltinFunction
-	TypeError
+	Builtin struct {
+		Fn BuiltinFunction
+	}
 )
 
-func (t Type) String() string {
-	switch t {
-	case TypeInteger:
-		return "Integer"
-	case TypeBoolean:
-		return "Boolean"
-	case TypeNull:
-		return "Null"
-	case TypeReturnValue:
-		return "Return Value"
-	case TypeFunction:
-		return "Function"
-	case TypeError:
-		return "Error"
-	case TypeString:
-		return "String"
-	case TypeBuiltinFunction:
-		return "Builtin Function"
-	default:
-		return "Null"
-	}
+func (b *Builtin) Type() Type {
+	return TypeBuiltinFunction
 }
 
-type Object interface {
-	Type() Type
-	Inspect() string
+func (b *Builtin) Inspect() string {
+	return "built-in function for Snow-Lang"
 }

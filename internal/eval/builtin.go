@@ -16,45 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package object
+package eval
 
-type Type uint8
+import "github.com/suenchunyu/snow-lang/internal/object"
 
-const (
-	TypeNull Type = iota
-	TypeInteger
-	TypeBoolean
-	TypeReturnValue
-	TypeFunction
-	TypeString
-	TypeBuiltinFunction
-	TypeError
-)
-
-func (t Type) String() string {
-	switch t {
-	case TypeInteger:
-		return "Integer"
-	case TypeBoolean:
-		return "Boolean"
-	case TypeNull:
-		return "Null"
-	case TypeReturnValue:
-		return "Return Value"
-	case TypeFunction:
-		return "Function"
-	case TypeError:
-		return "Error"
-	case TypeString:
-		return "String"
-	case TypeBuiltinFunction:
-		return "Builtin Function"
-	default:
-		return "Null"
-	}
+var builtin = map[string]*object.Builtin{
+	"len": {builtinFunctionLen()},
 }
 
-type Object interface {
-	Type() Type
-	Inspect() string
+func builtinFunctionLen() object.BuiltinFunction {
+	return func(args ...object.Object) object.Object {
+		if len(args) != 1 {
+			return throw("wrong number of arguments. got %d, want 1", len(args))
+		}
+
+		switch arg := args[0].(type) {
+		case *object.String:
+			return &object.Integer{Value: int64(len(arg.Value))}
+		default:
+			return throw("argument type to `len` not supported")
+		}
+	}
 }
